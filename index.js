@@ -7,7 +7,7 @@ const Pergunta = require("./database/Pergunta");
 connection
       .authenticate()
       .then(() => {
-         console.log("Conexion OK from BD")
+         console.log("Conexion OK from BD MySql")
       })
       .catch((msgErro) => {
          console.log(msgErro);
@@ -23,7 +23,11 @@ app.use(bodyParser.json());
 
 //Rotas
 app.get("/", (req, res) => {
-   res.render("index");
+   Pergunta.findAll({ raw: true }).then(perguntas => {//SELECT * ALL FROM perguntas
+      res.render("index", {
+         perguntas: perguntas
+      });
+   });
 });
 
 app.get("/perguntar", (req, res) => {
